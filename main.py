@@ -13,6 +13,7 @@ app.logger.setLevel(logging.INFO)
 logging.getLogger("werkzeug").setLevel(logging.Error)
 VERBOSE = os.getenv("WEBHOOK_VERBOSE", "0") == "1"
 
+@app.route("/github-webhook", methods=["POST"])
 def github_webhook():
     payload = request.get_json(silent=True) or {}
     repo = (payload.get("repository") or {}).get("full_name", "?")

@@ -1,0 +1,17 @@
+services:
+  webhook-server:
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+    container_name: webhook-server
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    depends_on:
+      - webhook-server
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+    command: http webhook-server:5000
+    ports:
+      - "4040:4040"
